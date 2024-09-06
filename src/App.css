@@ -1,0 +1,35 @@
+.detail-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+    padding: 20px;
+}
+
+.person-info {
+    grid-column: 1 / span 1;
+}
+
+.invoice-section {
+    grid-column: 2 / span 1;
+}
+
+.invoice-table {
+    margin-top: 20px;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.invoice-table th,
+.invoice-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.invoice-table th {
+    background-color: #f2f2f2;
+    text-align: left;
+}
+
+.invoice-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
