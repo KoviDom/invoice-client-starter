@@ -14,7 +14,7 @@ const InvoiceIndex = () => {
             console.log(error.message);
             alert(error.message);
         }
-        setInvoices(invoices.filter((invoice) => invoice._id !== id));
+        setInvoices(invoices.filter((item) => item._id !== id));
     };
 
     useEffect(() => {

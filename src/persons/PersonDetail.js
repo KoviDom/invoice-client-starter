@@ -54,87 +54,92 @@ const PersonDetail = () => {
             <div>
                 <h1>Detail osoby</h1>
                 <hr />
-                <h3>{person.name} ({person.identificationNumber})</h3>
-                <p>
-                    <strong>DIČ:</strong>
-                    <br />
-                    {person.taxNumber}
-                </p>
-                <p>
-                    <strong>Bankovní účet:</strong>
-                    <br />
-                    {person.accountNumber}/{person.bankCode} ({person.iban})
-                </p>
-                <p>
-                    <strong>Tel.:</strong>
-                    <br />
-                    {person.telephone}
-                </p>
-                <p>
-                    <strong>Mail:</strong>
-                    <br />
-                    {person.mail}
-                </p>
-                <p>
-                    <strong>Sídlo:</strong>
-                    <br />
-                    {person.street}, {person.city}, {person.zip}, {country}
-                </p>
-                <p>
-                    <strong>Poznámka:</strong>
-                    <br />
-                    {person.note}
-                </p>
+                <div className="d-flex flex-row">
+                    <div>
+                        <h3>{person.name} ({person.identificationNumber})</h3>
+                        <p>
+                            <strong>DIČ:</strong>
+                            <br />
+                            {person.taxNumber}
+                        </p>
+                        <p>
+                            <strong>Bankovní účet:</strong>
+                            <br />
+                            {person.accountNumber}/{person.bankCode} ({person.iban})
+                        </p>
+                        <p>
+                            <strong>Tel.:</strong>
+                            <br />
+                            {person.telephone}
+                        </p>
+                        <p>
+                            <strong>Mail:</strong>
+                            <br />
+                            {person.mail}
+                        </p>
+                        <p>
+                            <strong>Sídlo:</strong>
+                            <br />
+                            {person.street}, {person.city}, {person.zip}, {country}
+                        </p>
+                        <p>
+                            <strong>Poznámka:</strong>
+                            <br />
+                            {person.note}
+                        </p>
+                        </div>
+                        {/* Sekce faktur */}
+                        <hr />
+                        <div>
+                        <h2>Vystavené faktury</h2>
+                        <table className="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Číslo faktury</th>
+                                    <th>Odběratel</th>
+                                    <th>Datum vystavení</th>
+                                    <th>Datum splatnosti</th>
+                                    <th>Částka</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {invoicesIssued.map((invoice) => (
+                                    <tr key={invoice.id}>
+                                        <td>{invoice.invoiceNumber}</td>
+                                        <td>{invoice.customer}</td>
+                                        <td>{invoice.issueDate}</td>
+                                        <td>{invoice.dueDate}</td>
+                                        <td>{invoice.amount} Kč</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
 
-                {/* Sekce faktur */}
-                <hr />
-                <h2>Vystavené faktury</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Číslo faktury</th>
-                            <th>Odběratel</th>
-                            <th>Datum vystavení</th>
-                            <th>Datum splatnosti</th>
-                            <th>Částka</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {invoicesIssued.map((invoice) => (
-                            <tr key={invoice.id}>
-                                <td>{invoice.invoiceNumber}</td>
-                                <td>{invoice.customer}</td>
-                                <td>{invoice.issueDate}</td>
-                                <td>{invoice.dueDate}</td>
-                                <td>{invoice.amount} Kč</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-
-                <h2>Přijaté faktury</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Číslo faktury</th>
-                            <th>Dodavatel</th>
-                            <th>Datum vystavení</th>
-                            <th>Datum splatnosti</th>
-                            <th>Částka</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {invoicesReceived.map((invoice) => (
-                            <tr key={invoice.id}>
-                                <td>{invoice.invoiceNumber}</td>
-                                <td>{invoice.supplier}</td>
-                                <td>{invoice.issueDate}</td>
-                                <td>{invoice.dueDate}</td>
-                                <td>{invoice.amount} Kč</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        <h2>Přijaté faktury</h2>
+                        <table className="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Číslo faktury</th>
+                                    <th>Dodavatel</th>
+                                    <th>Datum vystavení</th>
+                                    <th>Datum splatnosti</th>
+                                    <th>Částka</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {invoicesReceived.map((invoice) => (
+                                    <tr key={invoice.id}>
+                                        <td>{invoice.invoiceNumber}</td>
+                                        <td>{invoice.supplier}</td>
+                                        <td>{invoice.issueDate}</td>
+                                        <td>{invoice.dueDate}</td>
+                                        <td>{invoice.amount} Kč</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </>
     );

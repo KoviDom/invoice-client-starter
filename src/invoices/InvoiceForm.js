@@ -5,13 +5,17 @@ import { useNavigate, useParams } from "react-router-dom";
 import { apiGet, apiPost, apiPut } from "../utils/api";
 import InputField from "../components/InputField";
 import FlashMessage from "../components/FlashMessage";
+import InputSelect from "../components/InputSelect";
 
 const InvoiceForm = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const [invoice, setInvoice] = useState({
         invoiceNumber: "",
+        customer: "",
+        supplier: "",
         date: "",
+        product: "",
         amount: "",
         description: "",
     });
@@ -42,6 +46,9 @@ const InvoiceForm = () => {
             });
     };
 
+    const sent = sentState;
+    const success = successState;
+
     return (
         <div>
             <h1>{id ? "Upravit" : "Vytvořit"} fakturu</h1>
@@ -58,28 +65,75 @@ const InvoiceForm = () => {
                     required={true}
                     type="text"
                     name="invoiceNumber"
+                    min="3"
                     label="Číslo faktury"
                     prompt="Zadejte číslo faktury"
                     value={invoice.invoiceNumber}
                     handleChange={(e) => setInvoice({ ...invoice, invoiceNumber: e.target.value })}
                 />
 
+                <InputSelect 
+                    required={true}
+                    type="select"
+                    name="customer"
+                    min="3"
+                    label="Odběratel"
+                    prompt="Vyber odběratele"
+                    items={["ITnetwork s.r.o.", "ictdemy s.r.o.", "Samuel Kodytek", "blablabla"]}
+                    value={invoice.customer}
+                    handleChange={(e) => setInvoice({ ...invoice, customer: e.target.value})}
+                />
+
                 <InputField
                     required={true}
                     type="date"
                     name="date"
-                    label="Datum"
+                    label="Datum vystavení"
                     prompt="Zadejte datum"
                     value={invoice.date}
                     handleChange={(e) => setInvoice({ ...invoice, date: e.target.value })}
+                />
+
+                <InputSelect 
+                    required={true}
+                    type="select"
+                    name="supplier"
+                    min="3"
+                    label="Dodavatel"
+                    prompt="Vyber dodavatel"
+                    items={["ITnetwork s.r.o.", "ictdemy s.r.o.", "Samuel Kodytek", "blablabla"]}
+                    value={invoice.supplier}
+                    handleChange={(e) => setInvoice({ ...invoice, supplier: e.target.value})}
+                />
+
+                <InputField
+                    required={true}
+                    type="date"
+                    name="date"
+                    label="Datum splatnosti:"
+                    prompt="Zadejte datum"
+                    value={invoice.date}
+                    handleChange={(e) => setInvoice({ ...invoice, date: e.target.value })}
+                />
+
+                <InputField 
+                    required={true}
+                    type="text"
+                    name="product"
+                    min="3"
+                    label="Produkt"
+                    prompt="Zadejte produkt"
+                    value={invoice.product}
+                    handleChange={(e) => setInvoice({ ...invoice, product: e.target.value})}
                 />
 
                 <InputField
                     required={true}
                     type="number"
                     name="amount"
-                    label="Částka"
-                    prompt="Zadejte částku"
+                    min="3"
+                    label="Cena"
+                    prompt="Zadejte cenu"
                     value={invoice.amount}
                     handleChange={(e) => setInvoice({ ...invoice, amount: e.target.value })}
                 />
@@ -87,6 +141,7 @@ const InvoiceForm = () => {
                 <InputField
                     type="text"
                     name="description"
+                    min="3"
                     label="Popis"
                     prompt="Zadejte popis"
                     value={invoice.description}
