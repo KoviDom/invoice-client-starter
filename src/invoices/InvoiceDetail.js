@@ -32,7 +32,7 @@ const InvoiceDetail = () => {
             <hr />
             <p><strong>Číslo faktury:</strong> {invoice.invoiceNumber}</p>
             <p><strong>Datum:</strong> {invoice.date}</p>
-            <p><strong>Částka:</strong> {invoice.amount}</p>
+            <p><strong>Cena:</strong> {invoice.price}</p>
             <p><strong>Popis:</strong> {invoice.description}</p>
             <hr />
             <Link to="/invoices" className="btn btn-primary">Zpět na seznam faktur</Link>

@@ -38,14 +38,16 @@ const PersonDetail = () => {
         apiGet("/api/persons/" + id).then((data) => setPerson(data));
 
         // Načtení vystavených faktur na základě IČO (sales)
-        apiGet(`/api/identification/${id}/sales`).then((data) =>
-            setInvoicesIssued(data)
-        );
+        apiGet(`/api/identification/${id}/sales`).then((data) => {
+            console.log("Vystavené faktury", data);
+            setInvoicesIssued(data);
+        });
 
         // Načtení přijatých faktur na základě IČO (purchases)
-        apiGet(`/api/identification/${id}/purchases`).then((data) =>
-            setInvoicesReceived(data)
-        );
+        apiGet(`/api/identification/${id}/purchases`).then((data) => {
+            console.log("Přijaté faktury", data);
+            setInvoicesReceived(data);
+        });
     }, [id]);
     const country = Country.CZECHIA === person.country ? "Česká republika" : "Slovensko";
 
@@ -87,10 +89,10 @@ const PersonDetail = () => {
                             <br />
                             {person.note}
                         </p>
-                        </div>
+                    </div>
                         {/* Sekce faktur */}
                         <hr />
-                        <div>
+                    <div>
                         <h2>Vystavené faktury</h2>
                         <table className="table table-bordered">
                             <thead>
@@ -106,10 +108,10 @@ const PersonDetail = () => {
                                 {invoicesIssued.map((invoice) => (
                                     <tr key={invoice.id}>
                                         <td>{invoice.invoiceNumber}</td>
-                                        <td>{invoice.customer}</td>
-                                        <td>{invoice.issueDate}</td>
+                                        <td>{invoice.seller?.name}</td>
+                                        <td>{invoice.issued}</td>
                                         <td>{invoice.dueDate}</td>
-                                        <td>{invoice.amount} Kč</td>
+                                        <td>{invoice.price} Kč</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -130,10 +132,10 @@ const PersonDetail = () => {
                                 {invoicesReceived.map((invoice) => (
                                     <tr key={invoice.id}>
                                         <td>{invoice.invoiceNumber}</td>
-                                        <td>{invoice.supplier}</td>
-                                        <td>{invoice.issueDate}</td>
+                                        <td>{invoice.buyer?.name}</td>
+                                        <td>{invoice.issued}</td>
                                         <td>{invoice.dueDate}</td>
-                                        <td>{invoice.amount} Kč</td>
+                                        <td>{invoice.price} Kč</td>
                                     </tr>
                                 ))}
                             </tbody>

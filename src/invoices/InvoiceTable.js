@@ -7,6 +7,7 @@ const InvoiceTable = ({ label, items, deleteInvoice }) => {
     return (
         <div>
             <p>{label} {items.length}</p>
+
             <table className="table table-bordered">
                 <thead>
                     <tr>
@@ -24,10 +25,10 @@ const InvoiceTable = ({ label, items, deleteInvoice }) => {
                         <tr key={index + 1}>
                             <td>{index + 1}</td>
                             <td>{item.invoiceNumber}</td>
-                            <td>{item.customer}</td>
-                            <td>{item.supplier}</td>
+                            <td>{item.buyer}</td> {/* Odběratel */}
+                            <td>{item.seller}</td> {/* Dodavatel */}
                             <td>{item.product}</td>
-                            <td>{item.amount}</td>
+                            <td>{item.price}</td>
                             <td>
                                 <div className="btn-group">
                                     <Link to={"/invoices/show/" + item._id} className="btn btn-sm btn-info">
