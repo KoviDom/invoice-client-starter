@@ -24,6 +24,10 @@ const InvoiceForm = () => {
     const [sentState, setSent] = useState(false);
     const [successState, setSuccess] = useState(false);
     const [errorState, setError] = useState(null);
+    const [buyerListState, setBuyerList] = useState([]);
+    const [buyersState, setBuyers] = useState([]);
+    const [sellerListState, setSellerList] = useState([]);
+    const [sellersState, setSellers] = useState([]);
 
     useEffect(() => {
         if (id) {
@@ -79,11 +83,12 @@ const InvoiceForm = () => {
                     type="select"
                     name="buyer"
                     min="3"
+                    multiple={true}
                     label="Odběratel"
                     prompt="Vyber odběratele"
-                    items={["ITnetwork s.r.o.", "ictdemy s.r.o.", "Samuel Kodytek", "blablabla"]}
-                    value={invoice.buyer}
-                    handleChange={(e) => setInvoice({...invoice, buyer: e.target.value})}
+                    items={buyerListState}
+                    value={buyersState}
+                    handleChange={handleChange}
                 />
 
                 <InputField
@@ -104,9 +109,9 @@ const InvoiceForm = () => {
                     min="3"
                     label="Dodavatel"
                     prompt="Vyber dodavatel"
-                    items={["ITnetwork s.r.o.", "ictdemy s.r.o.", "Samuel Kodytek", "blablabla"]}
-                    value={invoice.seller}
-                    handleChange={(e) => setInvoice({...invoice, seller: e.target.value})}
+                    items={sellerListState}
+                    value={sellersState}
+                    handleChange={handleChange}
                 />
 
                 <InputField
