@@ -6,14 +6,16 @@ import InvoiceTable from "./InvoiceTable";
 import InvoiceFilter from "./InvoiceFilter";
 
 const InvoiceIndex = () => {
+    const [buyerListState, setBuyerList] = useState([]);
+    const [sellerListState, setSellerList] = useState([]);
     const [invoices, setInvoices] = useState([]);
     const [filters, setFilters] = useState({
-        buyer: "",
-        seller: "",
-        minPrice: "",
-        maxPrice: "",
-        product: "",
-        limit: 10
+        buyerID: undefined,
+        sellerID: undefined,
+        minPrice: undefined,
+        maxPrice: undefined,
+        product: undefined,
+        limit: undefined,
     });
 
     const deleteInvoice = async (id) => {
@@ -36,14 +38,38 @@ const InvoiceIndex = () => {
             .catch(error => console.error(error));
     }, [filters]);
 
-    const handleFilterChange = (newFilters) => {
-        setFilters(newFilters);
+    const handleFilterChange = (e) => {
+        // pokud vybereme prázdnou hodnotu (máme definováno jako true/false/'' v komponentách), nastavíme na undefined
+        if (e.target.value === "false" || e.target.value === "true" || e.target.value === '') {
+          setFilter(prevState => {
+            return { ...prevState, [e.target.name]: undefined }
+          });
+        } else {
+          setFilter(prevState => {
+            return { ...prevState, [e.target.name]: e.target.value }
+          });
+        }
     };
+
+    const handleFilterSubmit = async (e) => {
+        e.preventDefault();
+        const params = filterState;
+    
+        const data = await apiGet("/api/invoices", params);
+        setInvoices(data);
+      };
 
     return (
         <div>
             <h1>Seznam faktur</h1>
-            <InvoiceFilter filters={filters} onFilterChange={handleFilterChange} />
+            <InvoiceFilter
+                handleChange={handleFilterChange}  // Funkce pro zpracování změn ve formuláři
+                handleSubmit={handleFilterSubmit}  // Funkce pro odeslání formuláře
+                buyerList={buyerListState}   // Seznam odběratelů
+                sellerList={sellerListState} // Seznam dodavatelů
+                filter={filters}             // Přímo používáme `filters` jako stav filtru
+                confirm="Filtrovat faktury"  // Text na tlačítku pro odeslání
+            />
             <InvoiceTable
                 deleteInvoice={deleteInvoice}
                 items={invoices}

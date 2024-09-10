@@ -5,7 +5,7 @@ export function InputField(props) {
   const INPUTS = ["text", "number", "date"];
 
   // validace elementu a typu
-  const type = props.type.toLowerCase();
+  const type = props.type ? props.type.toLowerCase() : "";
   const isTextarea = type === "textarea";
   const required = props.required || false;
 

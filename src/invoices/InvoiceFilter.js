@@ -1,97 +1,122 @@
-import React, { useState } from "react";
+import React from 'react';
+import InputSelect from '../components/InputSelect';
+import InputField from '../components/InputField';
 
-const InvoiceFilter = ({ filters, onFilterChange }) => {
-    const [localFilters, setLocalFilters] = useState(filters);
+const InvoiceFilter = (props) => {
 
     const handleChange = (e) => {
-        setLocalFilters({
-            ...localFilters,
-            [e.target.name]: e.target.value
-        });
+        props.handleChange(e); // Použití funkce handleChange z props
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Filtry při odesílání:", localFilters);  // Přidáno pro kontrolu
-        onFilterChange(localFilters);
+        props.handleSubmit(e); // Použití handleSubmit z props
     };
 
     const handleReset = () => {
-        const resetFilters = {
-            buyer: "",
-            seller: "",
-            minPrice: "",
-            maxPrice: "",
-            product: "",
-            limit: 10
-        };
-        setLocalFilters(resetFilters);
-        onFilterChange(resetFilters);
+        setFilters({
+            buyerID: undefined,
+            sellerID: undefined,
+            minPrice: undefined,
+            maxPrice: undefined,
+            product: undefined,
+            limit: undefined,
+        });
     };
+
+    const filter = props.filter; // Aktuální hodnoty filtrů předané z rodičovské komponenty
 
     return (
         <form onSubmit={handleSubmit}>
-            <div>
-                <label>Odběratel</label>
-                <input
-                    name="buyer"
-                    value={localFilters.buyer}
-                    onChange={handleChange}
-                    placeholder="(nevybrán)"
-                />
+            <div className="row">
+                <div className="col">
+                    <InputSelect
+                        name="buyerID"
+                        items={props.buyerList}
+                        handleChange={handleChange}
+                        label="Odběratel"
+                        prompt="nevybrán"
+                        value={filter.buyerID}
+                    />
+                </div>
+                <div className="col">
+                    <InputSelect
+                        name="sellerID"
+                        items={props.sellerList}
+                        handleChange={handleChange}
+                        label="Dodavatel"
+                        prompt="nevybrán"
+                        value={filter.sellerID}
+                    />
+                </div>
+                <div className="col">
+                    <InputField
+                        type="number"
+                        min="0"
+                        name="minPrice"
+                        handleChange={handleChange}
+                        label="Minimální cena"
+                        prompt="neuvedeno"
+                        value={filter.minPrice || ''}
+                    />
+                </div>
             </div>
-            <div>
-                <label>Dodavatel</label>
-                <input
-                    name="seller"
-                    value={localFilters.seller}
-                    onChange={handleChange}
-                    placeholder="(nevybrán)"
-                />
+
+            <div className="row">
+                <div className="col">
+                    <InputField
+                        type="number"
+                        min="0"
+                        name="maxPrice"
+                        handleChange={handleChange}
+                        label="Maximální cena"
+                        prompt="neuvedeno"
+                        value={filter.maxPrice || ''}
+                    />
+                </div>
+
+                <div className="col">
+                    <InputField
+                        type="text"
+                        name="product"
+                        handleChange={handleChange}
+                        label="Produkt/Služba"
+                        prompt="neuvedeno"
+                        value={filter.product || ''}
+                    />
+                </div>
+
+                <div className="col">
+                    <InputField
+                        type="number"
+                        min="1"
+                        name="limit"
+                        handleChange={handleChange}
+                        label="Limit počtu faktur"
+                        prompt="neuvedeno"
+                        value={filter.limit || ''}
+                    />
+                </div>
             </div>
-            <div>
-                <label>Minimální cena</label>
-                <input
-                    name="minPrice"
-                    type="number"
-                    value={localFilters.minPrice}
-                    onChange={handleChange}
-                    placeholder="neuvedeno"
-                />
+
+            <div className="row">
+                <div className="col">
+                    <input
+                        type="submit"
+                        className="btn btn-secondary float-right mt-2"
+                        value={props.confirm}
+                    />
+                </div>
+                <div className="col">
+                    <button
+                        type="button"
+                        className="btn btn-danger mt-2"
+                        onClick={handleReset} // Přidání tlačítka reset
+                    >
+                        reset
+                    </button>
+                </div>
             </div>
-            <div>
-                <label>Maximální cena</label>
-                <input
-                    name="maxPrice"
-                    type="number"
-                    value={localFilters.maxPrice}
-                    onChange={handleChange}
-                    placeholder="neuvedeno"
-                />
-            </div>
-            <div>
-                <label>Produkt/Služba</label>
-                <input
-                    name="product"
-                    value={localFilters.product}
-                    onChange={handleChange}
-                    placeholder="neuvedeno"
-                />
-            </div>
-            <div>
-                <label>Limit počtu faktur</label>
-                <select
-                    name="limit"
-                    value={localFilters.limit}
-                    onChange={handleChange}
-                >
-                    <option value={10}>10</option>
-                    <option value={20}>20</option>
-                    <option value={50}>50</option>
-                </select>
-            </div>
-            <button type="submit">FILTR</button>
-            <button type="button" onClick={handleReset}>reset</button>
         </form>
     );
 };
