@@ -27,8 +27,11 @@ const InvoiceIndex = () => {
     };
 
     useEffect(() => {
+        console.log("Aktuální filtry:", filters);  // Přidáno pro kontrolu
+        const queryString = new URLSearchParams(filters).toString();
+
         // Načítání faktur při prvním renderu nebo změně filtrů
-        apiGet("/api/invoices", filters)
+        apiGet(`/api/invoices?${queryString}`)
             .then(data => setInvoices(data))
             .catch(error => console.error(error));
     }, [filters]);

@@ -12,6 +12,7 @@ const InvoiceFilter = ({ filters, onFilterChange }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log("Filtry při odesílání:", localFilters);  // Přidáno pro kontrolu
         onFilterChange(localFilters);
     };
 
