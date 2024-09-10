@@ -21,29 +21,29 @@ const InvoiceTable = ({ label, items, deleteInvoice }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {items.map((item, index) => (
-                        <tr key={index + 1}>
-                            <td>{index + 1}</td>
-                            <td>{item.invoiceNumber}</td>
-                            <td>{item.buyer}</td> {/* Odběratel */}
-                            <td>{item.seller}</td> {/* Dodavatel */}
-                            <td>{item.product}</td>
-                            <td>{item.price}</td>
-                            <td>
-                                <div className="btn-group">
-                                    <Link to={"/invoices/show/" + item._id} className="btn btn-sm btn-info">
-                                        Zobrazit
-                                    </Link>
-                                    <Link to={"/invoices/edit/" + item._id} className="btn btn-sm btn-warning">
-                                        Upravit
-                                    </Link>
-                                    <button onClick={() => deleteInvoice(item._id)} className="btn btn-sm btn-danger">
+                    {items.length > 0 ? (
+                        items.map((invoice, index) => (
+                            <tr key={invoice.id || index}>
+                                <td>{index + 1}</td>
+                                <td>{invoice.invoiceNumber}</td>
+                                <td>{invoice.buyer.name}</td>
+                                <td>{invoice.seller.name}</td>
+                                <td>{invoice.product}</td>
+                                <td>{invoice.price} Kč</td>
+                                <td>
+                                    <Link to={`/invoices/${invoice.id}`} className="btn btn-info">Zobrazit</Link>
+                                    <Link to={`/invoices/edit/${invoice.id}`} className="btn btn-warning">Upravit</Link>
+                                    <button className="btn btn-danger" onClick={() => deleteInvoice(invoice.id)}>
                                         Odstranit
                                     </button>
-                                </div>
-                            </td>
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="7">Žádné faktury nenalezeny</td>
                         </tr>
-                    ))}
+                    )}
                 </tbody>
             </table>
             <Link to={"/invoices/create"} className="btn btn-success">
