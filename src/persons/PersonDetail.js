@@ -20,14 +20,14 @@
  * Více informací na http://www.itnetwork.cz/licence
  */
 
-import React, {useEffect, useState} from "react";
-import {useParams, Link} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
 
-import {apiGet} from "../utils/api";
+import { apiGet } from "../utils/api";
 import Country from "./Country";
 
 const PersonDetail = () => {
-    const {id} = useParams(); // id je identificationNumber (IČO)
+    const { id } = useParams(); // id je identificationNumber (IČO)
     const [person, setPerson] = useState({});
     const [invoicesIssued, setInvoicesIssued] = useState([]);  // Vystavené faktury
     const [invoicesReceived, setInvoicesReceived] = useState([]);  // Přijaté faktury
@@ -50,9 +50,14 @@ const PersonDetail = () => {
             });
     }, [id]);
 
+    useEffect(() => {
+        apiGet(`/api/identification/${person.identificationNumber}/sales`).then((data) => setInvoicesIssued(data));
+        apiGet(`/api/identification/${person.identificationNumber}/purchases`).then((data) => setInvoicesReceived(data));
+    }, [person]);
+
     if (loading) {
         return <div>Loading...</div>;
-      }
+    }
 
     if (error) {
         return <div className="alert alert-danger">Chyba: {error}</div>;
@@ -104,8 +109,8 @@ const PersonDetail = () => {
                         </p>
                         <Link to="/persons" className="btn btn-primary">Zpět</Link>
                     </div>
-                        {/* Sekce faktur */}
-                        <hr />
+                    {/* Sekce faktur */}
+                    <hr />
                     <div>
                         <h2>Vystavené faktury</h2>
                         <table className="table table-bordered">
@@ -123,7 +128,7 @@ const PersonDetail = () => {
                                     invoicesIssued.map((invoice) => (
                                         <tr key={invoice.id}>
                                             <td><Link to={`/invoices/${invoice.id}`}>{invoice.invoiceNumber}</Link></td>
-                                            <td>{invoice.buyer}</td>
+                                            <td>{invoice.buyer.name}</td>
                                             <td>{invoice.issued}</td>
                                             <td>{invoice.dueDate}</td>
                                             <td>{invoice.price} Kč</td>
@@ -153,7 +158,7 @@ const PersonDetail = () => {
                                     invoicesReceived.map((invoice) => (
                                         <tr key={invoice.id}>
                                             <td><Link to={`/invoices/${invoice.id}`}>{invoice.invoiceNumber}</Link></td>
-                                            <td>{invoice.seller}</td>
+                                            <td>{invoice.seller.name}</td>
                                             <td>{invoice.issued}</td>
                                             <td>{invoice.dueDate}</td>
                                             <td>{invoice.price} Kč</td>

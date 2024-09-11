@@ -9,19 +9,7 @@ const InvoiceFilter = (props) => {
     };
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-        props.handleSubmit(e); // Použití handleSubmit z props
-    };
-
-    const handleReset = () => {
-        setFilters({
-            buyerID: undefined,
-            sellerID: undefined,
-            minPrice: undefined,
-            maxPrice: undefined,
-            product: undefined,
-            limit: undefined,
-        });
+        props.handleSubmit(e);
     };
 
     const filter = props.filter; // Aktuální hodnoty filtrů předané z rodičovské komponenty
@@ -35,7 +23,7 @@ const InvoiceFilter = (props) => {
                         items={props.buyerList}
                         handleChange={handleChange}
                         label="Odběratel"
-                        prompt="nevybrán"
+                        prompt="nevybráno"
                         value={filter.buyerID}
                     />
                 </div>
@@ -45,14 +33,14 @@ const InvoiceFilter = (props) => {
                         items={props.sellerList}
                         handleChange={handleChange}
                         label="Dodavatel"
-                        prompt="nevybrán"
+                        prompt="nevybráno"
                         value={filter.sellerID}
                     />
                 </div>
                 <div className="col">
                     <InputField
                         type="number"
-                        min="0"
+                        min="1"
                         name="minPrice"
                         handleChange={handleChange}
                         label="Minimální cena"
@@ -66,7 +54,7 @@ const InvoiceFilter = (props) => {
                 <div className="col">
                     <InputField
                         type="number"
-                        min="0"
+                        min="1"
                         name="maxPrice"
                         handleChange={handleChange}
                         label="Maximální cena"
@@ -92,9 +80,9 @@ const InvoiceFilter = (props) => {
                         min="1"
                         name="limit"
                         handleChange={handleChange}
-                        label="Limit počtu faktur"
+                        label="Limit počtu filmů"
                         prompt="neuvedeno"
-                        value={filter.limit || ''}
+                        value={filter.limit ? filter.limit : ''}
                     />
                 </div>
             </div>
@@ -111,7 +99,7 @@ const InvoiceFilter = (props) => {
                     <button
                         type="button"
                         className="btn btn-danger mt-2"
-                        onClick={handleReset} // Přidání tlačítka reset
+                        onClick={props.handleReset} // Přidání tlačítka reset
                     >
                         reset
                     </button>

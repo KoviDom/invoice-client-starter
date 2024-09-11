@@ -5,18 +5,19 @@ import { apiDelete, apiGet } from "../utils/api";
 import InvoiceTable from "./InvoiceTable";
 import InvoiceFilter from "./InvoiceFilter";
 
+const initialFilterState = {
+    buyerID: undefined,
+    sellerID: undefined,
+    minPrice: undefined,
+    maxPrice: undefined,
+    product: undefined,
+    limit: undefined,
+}
+
 const InvoiceIndex = () => {
-    const [buyerListState, setBuyerList] = useState([]);
-    const [sellerListState, setSellerList] = useState([]);
     const [invoices, setInvoices] = useState([]);
-    const [filters, setFilters] = useState({
-        buyerID: undefined,
-        sellerID: undefined,
-        minPrice: undefined,
-        maxPrice: undefined,
-        product: undefined,
-        limit: undefined,
-    });
+    const [filterState, setFilter] = useState(initialFilterState);
+    const [persons, setPersons] = useState([]);
 
     const deleteInvoice = async (id) => {
         try {
@@ -28,48 +29,64 @@ const InvoiceIndex = () => {
         }
     };
 
+    //fetchuji
     useEffect(() => {
-        console.log("Aktuální filtry:", filters);  // Přidáno pro kontrolu
-        const queryString = new URLSearchParams(filters).toString();
+        console.log("Aktuální filtry:", filterState);  // Přidáno pro kontrolu
 
         // Načítání faktur při prvním renderu nebo změně filtrů
-        apiGet(`/api/invoices?${queryString}`)
+        apiGet('/api/invoices')
             .then(data => setInvoices(data))
             .catch(error => console.error(error));
-    }, [filters]);
+    }, []);
 
-    const handleFilterChange = (e) => {
+    useEffect(() => {
+        apiGet("/api/persons")
+            .then(data => setPersons(data));
+    }, []);
+
+    const handleChange = (e) => {
         // pokud vybereme prázdnou hodnotu (máme definováno jako true/false/'' v komponentách), nastavíme na undefined
         if (e.target.value === "false" || e.target.value === "true" || e.target.value === '') {
-          setFilter(prevState => {
-            return { ...prevState, [e.target.name]: undefined }
-          });
+            setFilter(prevState => {
+                return { ...prevState, [e.target.name]: undefined }
+            });
         } else {
-          setFilter(prevState => {
-            return { ...prevState, [e.target.name]: e.target.value }
-          });
+            setFilter(prevState => {
+                return { ...prevState, [e.target.name]: e.target.value }
+            });
         }
     };
 
-    const handleFilterSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const params = filterState;
-    
+
         const data = await apiGet("/api/invoices", params);
         setInvoices(data);
-      };
+    };
+
+    const handleReset = async (e) => {
+        e.preventDefault();
+        setFilter(initialFilterState);
+
+        const data = await apiGet("/api/invoices");
+        setInvoices(data);
+    }
 
     return (
         <div>
             <h1>Seznam faktur</h1>
             <InvoiceFilter
-                handleChange={handleFilterChange}  // Funkce pro zpracování změn ve formuláři
-                handleSubmit={handleFilterSubmit}  // Funkce pro odeslání formuláře
-                buyerList={buyerListState}   // Seznam odběratelů
-                sellerList={sellerListState} // Seznam dodavatelů
-                filter={filters}             // Přímo používáme `filters` jako stav filtru
+                handleChange={handleChange}  // Funkce pro zpracování změn ve formuláři
+                handleSubmit={handleSubmit}  // Funkce pro odeslání formuláře
+                buyerList={persons}   // Seznam odběratelů
+                sellerList={persons} // Seznam dodavatelů
+                filter={filterState}
+                handleReset={handleReset}
+                setFilter={setFilter}         // Přímo používáme `filters` jako stav filtru
                 confirm="Filtrovat faktury"  // Text na tlačítku pro odeslání
             />
+            <hr />
             <InvoiceTable
                 deleteInvoice={deleteInvoice}
                 items={invoices}
