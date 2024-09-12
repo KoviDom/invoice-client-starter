@@ -5,7 +5,7 @@ export function InputSelect(props) {
   const required = props.required || false;
 
   // příznak označení prázdné hodnoty
-  const emptySelected = multiple ? props.value?.length === 0 : !props.value;
+  const emptySelected = multiple ? props.value.length === 0 : !props.value;
   // příznak objektové struktury položek
   const objectItems = props.enum ? false : true;
 

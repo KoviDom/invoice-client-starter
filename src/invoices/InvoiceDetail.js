@@ -6,7 +6,8 @@ import { apiGet } from "../utils/api";
 
 const InvoiceDetail = () => {
     const { id } = useParams();
-    const [invoice, setInvoice] = useState(null);
+    console.log(id);
+    const [invoice, setInvoice] = useState({});
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -23,21 +24,53 @@ const InvoiceDetail = () => {
     }
 
     if (!invoice) {
-        return <div>Načítání...</div>;
+        return <div>Žádná data k zobrazení.</div>;
     }
 
     return (
-        <div>
-            <h1>Detail faktury</h1>
-            <hr />
-            <p><strong>Číslo faktury:</strong> {invoice.invoiceNumber}</p>
-            <p><strong>Datum:</strong> {invoice.date}</p>
-            <p><strong>Cena:</strong> {invoice.price}</p>
-            <p><strong>Popis:</strong> {invoice.note}</p>
-            <hr />
-            <Link to="/invoices" className="btn btn-primary">Zpět na seznam faktur</Link>
-            <Link to={`/invoices/edit/${invoice._id}`} className="btn btn-warning ml-2">Upravit</Link>
-        </div>
+        <>
+            <div className="container">
+                <h1>Detail faktury</h1>
+                <hr />
+                <h3>{invoice.invoiceNumber} ({invoice.product})</h3>
+                <p>
+                    <strong>Datum vystavení:</strong>
+                    <br />
+                    {invoice.issued}
+                </p>
+                <p>
+                    <strong>Datum splatnosti:</strong>
+                    <br />
+                    {invoice.dueDate}
+                </p>
+                <p>
+                    <strong>Dodavatel:</strong>
+                    <br />
+                    {invoice.seller}
+                </p>
+                <p>
+                    <strong>Odběratel:</strong>
+                    <br />
+                    {invoice.buyer}
+                </p>
+                <p>
+                    <strong>Produkt:</strong>
+                    <br />
+                    {invoice.product}
+                </p>
+                <p>
+                    <strong>Cena:</strong>
+                    <br />
+                    {invoice.price}
+                </p>
+                <p>
+                    <strong>Popis:</strong>
+                    <br />
+                    {invoice.note}
+                </p>
+                <Link to="/invoices" className="btn btn-primary">Zpět</Link>
+            </div>
+        </>
     );
 };
 
