@@ -32,7 +32,7 @@ const InvoiceDetail = () => {
             <div className="container">
                 <h1>Detail faktury</h1>
                 <hr />
-                <h3>{invoice.invoiceNumber} ({invoice.product})</h3>
+                <h3>#{invoice.invoiceNumber} ({invoice.product})</h3>
                 <p>
                     <strong>Datum vystavení:</strong>
                     <br />
@@ -46,12 +46,12 @@ const InvoiceDetail = () => {
                 <p>
                     <strong>Dodavatel:</strong>
                     <br />
-                    {invoice.seller}
+                    {invoice.sellerID}
                 </p>
                 <p>
                     <strong>Odběratel:</strong>
                     <br />
-                    {invoice.buyer}
+                    {invoice.buyerID}
                 </p>
                 <p>
                     <strong>Produkt:</strong>
