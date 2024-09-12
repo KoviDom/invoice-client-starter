@@ -8,7 +8,7 @@ const InvoiceTable = ({ label, items, deleteInvoice }) => {
         <div>
             <p>{label} {items.length}</p>
 
-            <table className="table table-bordered">
+            <table className="table table-bordered table-hover">
                 <thead>
                     <tr>
                         <th>#</th>
