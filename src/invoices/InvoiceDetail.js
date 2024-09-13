@@ -46,12 +46,12 @@ const InvoiceDetail = () => {
                 <p>
                     <strong>Dodavatel:</strong>
                     <br />
-                    {invoice.sellerID}
+                    {invoice.seller && invoice.seller.name ? invoice.seller.name : "Dodavatel není dostupný"}
                 </p>
                 <p>
                     <strong>Odběratel:</strong>
                     <br />
-                    {invoice.buyerID}
+                    {invoice.buyer && invoice.buyer.name ? invoice.buyer.name : "Odběratel není dostupný"}
                 </p>
                 <p>
                     <strong>Produkt:</strong>

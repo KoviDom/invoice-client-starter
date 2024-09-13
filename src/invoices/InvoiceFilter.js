@@ -80,7 +80,7 @@ const InvoiceFilter = (props) => {
                         min="1"
                         name="limit"
                         handleChange={handleChange}
-                        label="Limit počtu filmů"
+                        label="Limit počtu faktur"
                         prompt="neuvedeno"
                         value={filter.limit ? filter.limit : ''}
                     />

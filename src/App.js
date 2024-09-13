@@ -38,6 +38,8 @@ import InvoiceIndex from "./invoices/InvoiceIndex";
 import InvoiceDetail from "./invoices/InvoiceDetail";
 import InvoiceForm from "./invoices/InvoiceForm";
 
+import Statistics from "./statistics/Statistics"; // Přidání importu pro statistiky
+
 export function App() {
   return (
     <Router>
@@ -51,6 +53,9 @@ export function App() {
             </li>
             <li className="nav-item">
               <Link to={"/invoices"} className="nav-link">Faktury</Link>
+            </li>
+            <li className="nav-item">
+              <Link to={"/statistics"} className="nav-link">Statistiky</Link>
             </li>
           </ul>
         </nav>
@@ -69,6 +74,7 @@ export function App() {
             <Route path="create" element={<InvoiceForm />} />
             <Route path="edit/:id" element={<InvoiceForm />} />
           </Route>
+          <Route path="/statistics" element={<Statistics />} /> {/* Přidání route */}
         </Routes>
       </div>
     </Router>
