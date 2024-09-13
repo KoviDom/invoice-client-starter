@@ -126,8 +126,8 @@ const PersonDetail = () => {
                             <tbody>
                                 {invoicesIssued.length > 0 ? (
                                     invoicesIssued.map((invoice) => (
-                                        <tr key={invoice.id}>
-                                            <td><Link to={`/invoices/${invoice.id}`}>{invoice.invoiceNumber}</Link></td>
+                                        <tr key={invoice._id}>
+                                            <td>{invoice.invoiceNumber}</td>
                                             <td>{invoice.buyer.name}</td>
                                             <td>{invoice.issued}</td>
                                             <td>{invoice.dueDate}</td>
@@ -156,8 +156,8 @@ const PersonDetail = () => {
                             <tbody>
                                 {invoicesReceived.length > 0 ? (
                                     invoicesReceived.map((invoice) => (
-                                        <tr key={invoice.id}>
-                                            <td><Link to={`/invoices/${invoice.id}`}>{invoice.invoiceNumber}</Link></td>
+                                        <tr key={invoice._id}>
+                                            <td>{invoice.invoiceNumber}</td>
                                             <td>{invoice.seller.name}</td>
                                             <td>{invoice.issued}</td>
                                             <td>{invoice.dueDate}</td>
